@@ -1,6 +1,6 @@
 # InnovateMart Retail Store Sample App
 
-This is a cloud-native, microservices-based retail store application built entirely from scratch by **John Oladoye (pharaoh-hub)**. Over six days of intense development, I designed, containerized, and deployed this project to AWS EKS using Terraform and GitHub Actions. Every service, every configuration, and every deployment step was handcrafted — no forks, no templates, no instructor shortcuts.
+This is a cloud-native, microservices-based retail store application. Through intense development, I designed, containerized, and deployed this project to AWS EKS using Terraform and GitHub Actions. Every service, every configuration, and every deployment was achieved.
 
 ---
 
@@ -33,7 +33,6 @@ The application is composed of multiple microservices, each responsible for a sp
 ## 🚀 Deployment Workflow
 
 ### 1. **Terraform Infrastructure Setup**
-I wrote all Terraform modules myself, including:
 - `main.tf`, `eks.tf`, `vpc.tf`, `subnets.tf`, `iam.tf`, and `gateway.tf`
 - Defined VPC, subnets, security groups, IAM roles, and EKS cluster
 - Used `terraform init`, `terraform plan`, and `terraform apply` to provision infrastructure
