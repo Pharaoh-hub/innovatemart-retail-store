@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovateMart - Future Tech Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="cyber-logo">InnovateMart</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p>Initializing Future Commerce...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Hamburger Menu -->
+            <div class="hamburger-menu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Logo -->
+            <div class="logo">
+                <i class="fas fa-microchip"></i>
+                InnovateMart
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="product.html" class="nav-link">Products</a>
+                <a href="#topology" class="nav-link">Topology</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <!-- Cart -->
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <div class="menu-category">
+                <h3><i class="fas fa-car"></i> Vehicles</h3>
+                <a href="product.html?category=cars">Electric Cars</a>
+                <a href="product.html?category=cars">Autonomous Vehicles</a>
+                <a href="product.html?category=cars">Flying Cars</a>
+            </div>
+            <div class="menu-category">
+                <h3><i class="fas fa-tv"></i> Entertainment</h3>
+                <a href="product.html?category=tv">8K Smart TVs</a>
+                <a href="product.html?category=tv">Holographic Displays</a>
+                <a href="product.html?category=movies">VR Movies</a>
+            </div>
+            <div class="menu-category">
+                <h3><i class="fas fa-laptop"></i> Computing</h3>
+                <a href="product.html?category=laptops">Quantum Laptops</a>
+                <a href="product.html?category=laptops">AI Workstations</a>
+                <a href="product.html?category=laptops">Neural Computers</a>
+            </div>
+            <div class="menu-category">
+                <h3><i class="fas fa-gamepad"></i> Gaming</h3>
+                <a href="product.html?category=gaming">VR Headsets</a>
+                <a href="product.html?category=gaming">Gaming Rigs</a>
+                <a href="product.html?category=gaming">Haptic Controllers</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="circuit-pattern"></div>
+            <div class="floating-particles"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="glitch" data-text="FUTURE">FUTURE</span>
+                <span class="tech-text">TECHNOLOGY</span>
+                <span class="glow-text">AWAITS</span>
+            </h1>
+            <p class="hero-subtitle">Experience tomorrow's technology today with InnovateMart's cutting-edge collection</p>
+            <div class="hero-buttons">
+                <a href="product.html" class="btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Explore Products
+                </a>
+                <a href="#topology" class="btn-secondary">
+                    <i class="fas fa-network-wired"></i>
+                    View Topology
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="tech-grid">
+                <div class="tech-item" style="animation-delay: 0.1s">
+                    <i class="fas fa-car"></i>
+                    <span>Vehicles</span>
+                </div>
+                <div class="tech-item" style="animation-delay: 0.2s">
+                    <i class="fas fa-tv"></i>
+                    <span>Smart TVs</span>
+                </div>
+                <div class="tech-item" style="animation-delay: 0.3s">
+                    <i class="fas fa-laptop"></i>
+                    <span>Laptops</span>
+                </div>
+                <div class="tech-item" style="animation-delay: 0.4s">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Gaming</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-accent">Featured</span> Technology
+            </h2>
+            <div class="products-grid">
+                <div class="product-card" data-category="cars">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="btn-add-cart" onclick="addToCart('cyber-car', 'CyberCar X1', 89999)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>CyberCar X1</h3>
+                        <p>Autonomous electric vehicle with AI assistant</p>
+                        <div class="product-price">$89,999</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tv">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="btn-add-cart" onclick="addToCart('holo-tv', 'HoloDisplay Pro', 4999)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>HoloDisplay Pro</h3>
+                        <p>75" Holographic display with neural interface</p>
+                        <div class="product-price">$4,999</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="laptops">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="btn-add-cart" onclick="addToCart('quantum-book', 'QuantumBook Pro', 5999)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>QuantumBook Pro</h3>
+                        <p>Quantum computing laptop with AI co-processor</p>
+                        <div class="product-price">$5,999</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="gaming">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="btn-add-cart" onclick="addToCart('neuro-vr', 'NeuroVR Elite', 2999)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>NeuroVR Elite</h3>
+                        <p>Next-gen VR with brain-computer interface</p>
+                        <div class="product-price">$2,999</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topology Section -->
+    <section id="topology" class="topology-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-accent">System</span> Topology
+            </h2>
+            <div class="topology-diagram">
+                <div class="topology-node" data-node="user">
+                    <i class="fas fa-user"></i>
+                    <span>User</span>
+                </div>
+                <div class="topology-connection"></div>
+                <div class="topology-node" data-node="lb">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Load Balancer</span>
+                </div>
+                <div class="topology-connection"></div>
+                <div class="topology-node" data-node="ui">
+                    <i class="fas fa-desktop"></i>
+                    <span>UI Service</span>
+                </div>
+                <div class="topology-branch">
+                    <div class="topology-node" data-node="catalog">
+                        <i class="fas fa-list"></i>
+                        <span>Catalog</span>
+                    </div>
+                    <div class="topology-node" data-node="cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                    </div>
+                    <div class="topology-node" data-node="orders">
+                        <i class="fas fa-receipt"></i>
+                        <span>Orders</span>
+                    </div>
+                </div>
+                <div class="topology-connection"></div>
+                <div class="topology-node" data-node="db">
+                    <i class="fas fa-database"></i>
+                    <span>Database</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">
+                        <span class="title-accent">About</span> InnovateMart
+                    </h2>
+                    <p>InnovateMart is the world's leading platform for next-generation technology. We specialize in bringing tomorrow's innovations to today's consumers, featuring cutting-edge products from autonomous vehicles to quantum computers.</p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">10M+</div>
+                            <div class="stat-label">Global Users</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Future Products</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="tech-sphere">
+                        <div class="sphere-ring"></div>
+                        <div class="sphere-core">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-accent">Contact</span> Our Team
+            </h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>support@innovatemart.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+234-800-INNOVATE</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Location</h3>
+                            <p>Future Tech Hub, Lagos, Nigeria</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                Total: $<span id="cart-total">0</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">
+                <i class="fas fa-credit-card"></i>
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>InnovateMart</h3>
+                    <p>Pioneering the future of technology commerce with cutting-edge innovations and seamless user experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="product.html">Products</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <a href="product.html?category=cars">Vehicles</a>
+                    <a href="product.html?category=tv">Entertainment</a>
+                    <a href="product.html?category=laptops">Computing</a>
+                    <a href="product.html?category=gaming">Gaming</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 InnovateMart Inc. All rights reserved. | Powered by Future Technology</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

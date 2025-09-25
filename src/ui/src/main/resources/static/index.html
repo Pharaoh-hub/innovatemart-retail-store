@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>InnovateMart — Retail</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>InnovateMart</h1>
+      <p class="tag">Retail Demo — By Oladoye Toyeeb Olaoluwa</p>
+      <div class="cart-btn" id="cart-btn" title="View cart">Cart (<span id="cart-count">0</span>)</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="catalog">
+      <h2>Catalog</h2>
+      <div id="products" class="grid">Loading catalog…</div>
+    </section>
+
+    <aside id="cart-panel" class="cart-panel hidden">
+      <h3>Your Cart</h3>
+      <div id="cart-items">Empty</div>
+      <div class="cart-footer">
+        <button id="checkout" class="btn">Checkout</button>
+        <button id="close-cart" class="btn ghost">Close</button>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Deployed on EKS • InnovateMart</small>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

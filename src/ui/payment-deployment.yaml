@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: innovatemart
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+      - name: payment
+        image: ghcr.io/aws-samples/retail-store-sample-payment:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: innovatemart
+spec:
+  selector:
+    app: payment
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP

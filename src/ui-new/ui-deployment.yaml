@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ui
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ui
+    spec:
+      containers:
+        - name: ui
+          image: 703668404244.dkr.ecr.us-east-1.amazonaws.com/innovatemart-ui:v13
+          ports:
+            - containerPort: 80

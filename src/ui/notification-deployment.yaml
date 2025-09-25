@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+  namespace: innovatemart
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      containers:
+      - name: notification
+        image: ghcr.io/aws-samples/retail-store-sample-notification:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: innovatemart
+spec:
+  selector:
+    app: notification
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
