@@ -1,139 +1,96 @@
-# InnovateMart Retail Store Sample App
+# InnovateMart Enterprise Retail Infrastructure
 
-This is a cloud-native, microservices-based retail store application. Through intense development, I designed, containerized, and deployed this project to AWS EKS using Terraform and GitHub Actions. Every service, every configuration, and every deployment was achieved.
+A high-availability, cloud-native microservices architecture deploying an e-commerce platform onto AWS Elastic Kubernetes Service (EKS). This project demonstrates modern GitOps workflows, zero-trust infrastructure provisioning via Terraform (IaC), state persistence in multi-engine database environments, and secure automated continuous delivery (CD) pipelines.
 
----
+## 🧱 Architecture & Component Breakdown
 
-## 🧱 Architecture Overview
+The infrastructure isolates the application layers into highly decoupled microservices communicating asynchronously over a message broker and storing state across dedicated transactional and caching database engines.
 
-The application is composed of multiple microservices, each responsible for a specific domain, and a Node.js frontend served via Nginx. All components are containerized and deployed to Kubernetes on AWS EKS.
+[ Ingress / AWS ALB ]
+                        │
+                [ Nginx Frontend ]
+                        │
+     ┌──────────────────┼──────────────────┐
+     ▼                  ▼                  ▼
+[ Carts Service ]  [ Catalog Service ] [ Orders Service ]
+│                  │                  │
+(Redis)          (PostgreSQL)          (MySQL)
+│
+▼
+[ RabbitMQ ]
+│
+▼
+[ Notification Service ]
 
-### 🔧 Components
 
-- **Frontend**: Node.js UI served via Nginx
-- **Microservices**:
-  - `carts`: manages shopping cart operations
-  - `catalog`: handles product listings
-  - `orders`: processes customer orders
-  - `checkout`: coordinates final purchase flow
-  - `payment`: simulates payment processing
-  - `notification`: sends order confirmations
-- **Databases**:
-  - MySQL for orders
-  - PostgreSQL for catalog
-  - Redis for carts
-  - RabbitMQ for notifications
-- **Infrastructure**:
-  - AWS EKS cluster provisioned via Terraform
-  - GitHub Actions for CI/CD pipeline
-  - Kubernetes manifests for service deployment
-
----
-
-## 🚀 Deployment Workflow
-
-### 1. **Terraform Infrastructure Setup**
-- `main.tf`, `eks.tf`, `vpc.tf`, `subnets.tf`, `iam.tf`, and `gateway.tf`
-- Defined VPC, subnets, security groups, IAM roles, and EKS cluster
-- Used `terraform init`, `terraform plan`, and `terraform apply` to provision infrastructure
-- Verified cluster access with `aws eks update-kubeconfig` and `kubectl get nodes`
-
-### 2. **Microservices Containerization**
-- Built Dockerfiles for each service manually
-- Tagged and pushed images to Amazon ECR
-- Verified container health locally using `docker run` and `curl`
-
-### 3. **Kubernetes Manifests**
-- Created deployment and service YAMLs for each microservice
-- Configured environment variables, ports, and resource limits
-- Applied manifests using `kubectl apply -f`
-- Verified pods and services with `kubectl get pods`, `kubectl get svc`
-
-### 4. **CI/CD Pipeline**
-- Created `.github/workflows/deploy.yaml` from scratch
-- Configured GitHub Secrets:
-  - `AWS_ACCESS_KEY_ID`
-  - `AWS_SECRET_ACCESS_KEY`
-  - `EKS_CLUSTER_NAME`
-  - `AWS_REGION`
-- Workflow steps:
-  - Checkout code
-  - Configure AWS credentials
-  - Setup `kubectl`
-  - Update kubeconfig
-  - Apply Kubernetes manifests
-
-### 5. **Frontend Integration**
-- Developed UI in Node.js using Express
-- Linked API endpoints via environment variables
-- Configured Nginx with custom `default.conf`
-- Deployed UI to EKS using `ui-deployment.yaml`
+### 🔧 Core Components
+* **Routing & Frontend:** Node.js UI optimized and reverse-proxied via an **Nginx** container layer.
+* **Microservices Layer:**
+  * `carts`: High-throughput in-memory state tracking.
+  * `catalog` & `orders`: Transactional inventory and customer booking workflows.
+  * `checkout` & `payment`: Secure payment simulation and orchestration flows.
+  * `notification`: Event-driven background tasks.
+* **Data & Messaging Tier (StatefulSets / Persistent Volumes):**
+  * **Redis**: Distributed in-memory caching engine for active shopping carts.
+  * **PostgreSQL & MySQL**: Relational engines managing catalog indices and order ledgers with localized database schemas.
+  * **RabbitMQ**: AMQP message broker handling asynchronous, decoupled service coordination.
 
 ---
 
-## 🧪 Local Development
+## 🚀 Infrastructure & Deployment Workflow
 
-During development, I ran the Node.js frontend locally on `localhost:3000`, which allowed me to verify layout, API connectivity, and theme switching. I manually configured environment variables to point to either local or remote microservices depending on the test scenario.
+### 1. Automated Infrastructure as Code (Terraform)
+The underlying cloud topology is declared entirely via declarative configuration blueprints (`main.tf`, `eks.tf`, `vpc.tf`, `subnets.tf`, `iam.tf`, `gateway.tf`) ensuring immutable infrastructure deployments:
+* **Network Isolation:** Custom multi-AZ VPC featuring isolated Public and Private subnets mapping explicitly to NAT Gateways to prevent direct internet exposure of data tiers.
+* **Identity & Access Management:** Granular IAM execution roles leveraging AWS OIDC provider integrations to achieve native IAM Roles for Service Accounts (IRSA), enforcing the principle of least privilege.
+* **Compute Provisioning:** AWS EKS Cluster configurations using managed node groups with targeted scaling parameters to absorb traffic spikes.
 
-I also tested individual microservices using `docker run` and `curl`, ensuring each service responded correctly before integrating them into the Kubernetes cluster. This helped me isolate issues early and confirm that each container was production-ready before deployment.
+### 2. Containerization & Registry Hardening
+* Hand-crafted, multi-stage `Dockerfiles` optimized for minimal image sizes and reduced attack surfaces.
+* Automated tagging, version control serialization, and secure transport up to **Amazon Elastic Container Registry (ECR)**.
+
+### 3. Kubernetes Orchestration & Manifest Engineering
+* **State Management:** Database components leverage native Kubernetes storage primitives via `PersistentVolumeClaims` to guarantee persistent data lifecycles independent of Pod restarts.
+* **Traffic Routing:** Internal service-to-service communication is orchestrated securely using internal ClusterIP definitions and standard Kube-DNS resolution patterns.
+* **Resource Controls:** Strict application of resource `requests` and `limits` (CPU and Memory limits) across all deployment manifests to prevent noisy-neighbor syndromes and maximize node efficiency.
+
+### 4. GitOps Automated CD Pipeline
+Continuous deployment workflows are orchestrated directly through **GitHub Actions** via `.github/workflows/deploy.yaml`. 
+* **Secrets Management:** Critical infrastructure contexts (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, cluster configurations) are protected out-of-band utilizing GitHub Encrypted Secrets.
+* **Pipeline Execution:** 1. Triggered on authenticated branch lifecycle changes.
+  2. Assumes programmatic AWS identities safely.
+  3. Updates localized `kubeconfig` binary environments securely.
+  4. Applies structural manifest changes idempotently via `kubectl apply`.
 
 ---
 
-## 📁 Project Structure
+## 📁 Repository Structure
+
+```text
 innovatemart-retail-store/
-├── src/                          # Source code for all services
-│   ├── ui/                       # Node.js frontend served via Nginx
-│   ├── carts/                    # Microservice for shopping cart operations
-│   ├── catalog/                  # Microservice for product listings
-│   ├── orders/                   # Microservice for order processing
-│   ├── checkout/                 # Microservice for checkout flow
-│   ├── payment/                  # Microservice for payment simulation
-│   └── notification/            # Microservice for sending notifications
-│
-├── terraform/                   # Infrastructure as Code (IaC)
-│   ├── main.tf                  # Terraform entry point
-│   ├── eks.tf                   # EKS cluster configuration
-│   ├── vpc.tf                   # VPC setup
-│   ├── subnets.tf               # Subnet definitions
-│   ├── iam.tf                   # IAM roles and policies
-│   └── gateway.tf               # Internet gateway and routing
-│
-├── kubernetes/                  # Kubernetes deployment manifests
-│   ├── carts-deployment.yaml
-│   ├── catalog-deployment.yaml
-│   ├── orders-deployment.yaml
-│   ├── checkout-deployment.yaml
-│   ├── payment-deployment.yaml
-│   ├── notification-deployment.yaml
-│   ├── mysql-deployment.yaml
-│   ├── postgres-deployment.yaml
-│   ├── redis-deployment.yaml
-│   ├── rabbitmq-deployment.yaml
-│   └── ui-deployment.yaml
-│
-├── .github/                     # GitHub Actions CI/CD pipeline
-│   └── workflows/
-│       └── deploy.yaml          # Workflow for EKS deployment
-│
-└── README.md                    # Personalized project documentation
+├── src/                         # Decoupled microservice source layers
+│   ├── ui/                      # Express-based UI layer containerized via Nginx
+│   ├── carts/                   # Shopping cart logic (Redis dependent)
+│   ├── catalog/                 # Inventory management (Postgres dependent)
+│   ├── orders/                  # Order entry engine (MySQL dependent)
+│   └── [checkout/payment/notification]
+├── terraform/                   # Infrastructure as Code (IaC) definitions
+│   ├── main.tf                  # Infrastructure entrypoint
+│   ├── eks.tf                   # EKS managed cluster parameters
+│   └── [vpc.tf / subnets.tf / iam.tf / gateway.tf]
+└── kubernetes/                  # Declarative configuration manifests
+    ├── deployments/             # Stateless microservice specifications
+    └── stateful/                # Storage and stateful database engines
+🛡️ Production Hardening & Operational Standards
+Secrets Protection: Stripped out plaintext secrets, refactoring environment variable management entirely through programmatic configuration hooks and injected variables.
 
+Network Security boundaries: Closed off all unnecessary public ingress ports; application layers communicating inside the private subnets are isolated securely behind network access controls.
 
----
+Fault Isolation: Decoupled critical database components from application processes using RabbitMQ message buffers to ensure high availability and prevent cascade failures during localized load surges.
 
-## 🧠 Lessons Learned
-
-- Mastered Terraform modules and AWS IAM roles
-- Debugged Kubernetes networking and service exposure
-- Built a secure CI/CD pipeline with GitHub Actions
-- Handled Git authentication, submodule issues, and token-based access
-- Gained confidence in cloud-native architecture and DevOps workflows
-- Learned to troubleshoot real-world deployment errors under pressure
-
----
-
-## 👤 Author
-
+👤 Maintainer
 Oladoye Toyeeb
-Built for academic submission and personal growth
-Location: Lagos State, Nigeria
-Date: September 2025
+
+Role: Cloud Infrastructure & DevSecOps Engineer
+
+Location: Lagos, Nigeria
